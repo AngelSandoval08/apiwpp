@@ -65,7 +65,6 @@ app.post('/message', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`Servidor WhatsApp corriendo en puerto ${PORT}`));
-
-
-
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor WhatsApp corriendo en puerto ${PORT}`);
+});

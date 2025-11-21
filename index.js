@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client } = require('whatsapp-web.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -14,8 +14,21 @@ const SECRET = process.env.WHATSAPP_SECRET;
 
 // Configuración de Whatsapp Web
 const client = new Client({
-    authStrategy: new LocalAuth({ clientId: "cedemi" })
+    puppeteer: {
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu'
+        ],
+    }
 });
+
 
 client.on('qr', qr => {
     qrcode.generate(qr, { small: true });
@@ -55,3 +68,4 @@ app.post('/message', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor WhatsApp corriendo en puerto ${PORT}`);
 });
+
